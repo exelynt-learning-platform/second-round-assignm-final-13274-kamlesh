@@ -41,6 +41,9 @@ export const sendMessage = createAsyncThunk(
             if (error.response.status >= 500) {
                 return rejectWithValue('Server error. Try again later.');
             }
+            if (error.code === 'ECONNABORTED') {
+                return rejectWithValue('Request timed out. Please try again.');
+            }
             return rejectWithValue(
                 error.response?.data?.error?.message || 'Something went wrong.'
             );
