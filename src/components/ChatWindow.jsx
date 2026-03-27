@@ -4,9 +4,11 @@ import MessageBubble from './MessageBubble';
 import LoadingSpinner from './LoadingSpinner';
 import InputBar from './InputBar';
 import { clearError } from '../store/chatSlice';
+
 import { FaRobot } from 'react-icons/fa'
 import { BsChatDots } from 'react-icons/bs';    
 import { MdClose } from 'react-icons/md';
+
 const ChatWindow = () => {
   const { messages, isLoading, error } = useSelector((state) => state.chat);
   const dispatch = useDispatch();
