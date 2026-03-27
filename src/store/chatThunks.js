@@ -1,18 +1,27 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+
+const axiosInstance = axios.create({
+  timeout: 30000,
+});
+
 export const sendMessage = createAsyncThunk(
     'chat/sendMessage',
     async (userMessage, { getState, rejectWithValue }) => {
+
+        if (!import.meta.env.VITE_OPENAI_API_KEY) {
+            return rejectWithValue('API key not configured. Check your .env file.');
+        }
+
         try {
             const { messages } = getState().chat;
-
-            const response = await axios.post(
+            const response = await axiosInstance.post(
                 'https://api.openai.com/v1/chat/completions',
                 {
                     model: 'gpt-3.5-turbo',
                     messages: [
-                        ...messages,
+                        ...messages.slice(-10),
                         { role: 'user', content: userMessage },
                     ],
                 },
@@ -25,12 +34,13 @@ export const sendMessage = createAsyncThunk(
             );
 
             return response.data.choices[0].message.content;
+
         } catch (error) {
+            if (error.code === 'ECONNABORTED') {
+                return rejectWithValue('Request timed out. Please try again.');
+            }
             if (!error.response) {
                 return rejectWithValue('Network error. Check your connection.');
-            }
-            if (!import.meta.env.VITE_OPENAI_API_KEY) {
-                return rejectWithValue('API key not configured. Check your .env file.');
             }
             if (error.response.status === 401) {
                 return rejectWithValue('Invalid API key. Check your .env file.');
@@ -40,9 +50,6 @@ export const sendMessage = createAsyncThunk(
             }
             if (error.response.status >= 500) {
                 return rejectWithValue('Server error. Try again later.');
-            }
-            if (error.code === 'ECONNABORTED') {
-                return rejectWithValue('Request timed out. Please try again.');
             }
             return rejectWithValue(
                 error.response?.data?.error?.message || 'Something went wrong.'
