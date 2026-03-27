@@ -19,7 +19,7 @@ export const sendMessage = createAsyncThunk(
         {
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer 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`,
+            Authorization: `Bearer ${import.meta.env.VITE_OPENAI_API_KEY}`,
           },
         }
       );
