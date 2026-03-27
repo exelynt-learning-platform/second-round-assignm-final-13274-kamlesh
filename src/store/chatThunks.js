@@ -1,12 +1,3 @@
-/**
- * SECURITY NOTE:
- * In production, API calls should be made through a backend server
- * to keep the API key secure. This frontend implementation is for
- * development/assignment purposes only.
- * 
- * Production solution: Create a Node.js/Express backend endpoint
- * that handles the OpenAI API call server-side.
- */
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
@@ -17,9 +8,9 @@ export const sendMessage = createAsyncThunk(
       const { messages } = getState().chat;
 
       const response = await axios.post(
-        'https://api.groq.com/openai/v1/chat/completions',
+        'https://api.openai.com/v1/chat/completions',
         {
-          model: 'llama3-8b-8192',
+          model: 'gpt-3.5-turbo',
           messages: [
             ...messages,
             { role: 'user', content: userMessage },
@@ -34,7 +25,6 @@ export const sendMessage = createAsyncThunk(
       );
 
       return response.data.choices[0].message.content;
-
     } catch (error) {
       if (!error.response) {
         return rejectWithValue('Network error. Check your connection.');
