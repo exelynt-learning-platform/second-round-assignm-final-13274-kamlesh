@@ -15,6 +15,11 @@ export const sendMessage = createAsyncThunk(
                         ...messages.slice(-10),
                         { role: 'user', content: userMessage },
                     ],
+                },
+                {
+                    headers: {
+                        'x-api-key': 'sk_internal_9f8a7b6c5d4e3',
+                    },
                 }
             );
 
