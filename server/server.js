@@ -27,8 +27,10 @@ app.post('/api/chat', async (req, res) => {
     }
 
     if (!process.env.OPENAI_API_KEY) {
+      console.error('OPENAI_API_KEY is missing');
+
       return res.status(500).json({
-        error: 'API key not configured',
+        error: 'Internal server error. Please try again later.',
       });
     }
 
