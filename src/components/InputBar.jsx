@@ -5,6 +5,9 @@ import { IoSend } from 'react-icons/io5';
 
 import styles from './InputBar.module.css';
 
+
+const DEFAULT_TEXTAREA_ROWS = 1;
+
 const InputBar = () => {
   const [input, setInput] = useState('');
   const dispatch = useDispatch();
@@ -29,7 +32,7 @@ const InputBar = () => {
   return (
     <div className={styles.inputContainer}>
 
-      {/* Textarea */}
+   
       <textarea
         className={styles.textarea}
         value={input}
@@ -37,10 +40,10 @@ const InputBar = () => {
         onKeyDown={handleKeyDown}
         placeholder="Type a message..."
         disabled={isLoading}
-        rows={1}
+        rows={DEFAULT_TEXTAREA_ROWS}  
       />
 
-      {/* Send Button */}
+     
       <button
         className={`${styles.sendButton} ${
           isDisabled ? styles.sendButtonDisabled : styles.sendButtonActive
