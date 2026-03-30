@@ -1,5 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
+
 import MessageBubble from './MessageBubble';
 import LoadingSpinner from './LoadingSpinner';
 import InputBar from './InputBar';
@@ -74,7 +76,11 @@ const ChatWindow = () => {
   );
 };
 
-
-ChatWindow.propTypes = {};
+// ✅ Proper PropTypes (as reviewer suggested)
+ChatWindow.propTypes = {
+  messages: PropTypes.array,
+  isLoading: PropTypes.bool,
+  error: PropTypes.string,
+};
 
 export default ChatWindow;
