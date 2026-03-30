@@ -2,39 +2,19 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 
-const axiosInstance = axios.create({
-  timeout: 30000,
-});
-
-
 export const sendMessage = createAsyncThunk(
     'chat/sendMessage',
     async (userMessage, { getState, rejectWithValue }) => {
 
-        if (!import.meta.env.VITE_OPENAI_API_KEY?.trim()) {
-      console.error('OpenAI API key is missing');
-
-      return rejectWithValue(
-        'Chat service is not configured properly. Please contact support.'
-      );
-    }
-
         try {
             const { messages } = getState().chat;
-            const response = await axiosInstance.post(
-                'https://api.openai.com/v1/chat/completions',
+            const response = await axios.post(
+                'http://localhost:5000/api/chat',
                 {
-                    model: 'gpt-3.5-turbo',
                     messages: [
                         ...messages.slice(-10),
                         { role: 'user', content: userMessage },
                     ],
-                },
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${import.meta.env.VITE_OPENAI_API_KEY}`,
-                    },
                 }
             );
 
