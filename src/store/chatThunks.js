@@ -9,7 +9,7 @@ export const sendMessage = createAsyncThunk(
         try {
             const { messages } = getState().chat;
             const response = await axios.post(
-                'http://localhost:5000/api/chat',
+                `${import.meta.env.VITE_API_URL}/chat`,
                 {
                     messages: [
                         ...messages.slice(-10),
@@ -18,7 +18,7 @@ export const sendMessage = createAsyncThunk(
                 },
                 {
                     headers: {
-                        'x-api-key': 'sk_internal_9f8a7b6c5d4e3',
+                        'x-api-key': import.meta.env.INTERNAL_API_KEY,
                     },
                 }
             );
