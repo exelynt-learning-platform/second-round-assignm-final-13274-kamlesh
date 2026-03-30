@@ -1,7 +1,5 @@
 import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
-
 import MessageBubble from './MessageBubble';
 import LoadingSpinner from './LoadingSpinner';
 import InputBar from './InputBar';

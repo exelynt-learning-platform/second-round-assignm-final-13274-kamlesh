@@ -5,13 +5,13 @@ import axios from 'axios';
 const axiosInstance = axios.create({
   timeout: 30000,
 });
-const API_KEY = import.meta.env.VITE_OPENAI_API_KEY;
+
 
 export const sendMessage = createAsyncThunk(
     'chat/sendMessage',
     async (userMessage, { getState, rejectWithValue }) => {
 
-        if (!API_KEY || API_KEY.trim() === '') {
+        if (!import.meta.env.VITE_OPENAI_API_KEY?.trim()) {
       console.error('OpenAI API key is missing');
 
       return rejectWithValue(
